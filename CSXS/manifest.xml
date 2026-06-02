@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.presetgold.search" ExtensionBundleVersion="1.0.0"
+	ExtensionBundleName="PresetGold" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ExtensionList>
+		<Extension Id="com.presetgold.search"  Version="1.1.0" />
+		<Extension Id="com.presetgold.service" Version="1.0.0" />
+	</ExtensionList>
+	<ExecutionEnvironment>
+		<HostList>
+			<Host Name="PPRO" Version="[11.0,99.9]" />
+		</HostList>
+		<LocaleList>
+			<Locale Code="All" />
+		</LocaleList>
+		<RequiredRuntimeList>
+			<RequiredRuntime Name="CSXS" Version="7.0" />
+		</RequiredRuntimeList>
+	</ExecutionEnvironment>
+	<DispatchInfoList>
+
+		<!-- ── Main visible panel ──────────────────────────────────────────── -->
+		<Extension Id="com.presetgold.search">
+			<DispatchInfo>
+				<Resources>
+					<MainPath>./index.html</MainPath>
+					<ScriptPath>./host/main.jsx</ScriptPath>
+					<CEFCommandLine>
+						<Parameter>--allow-file-access-from-files</Parameter>
+						<Parameter>--allow-file-access</Parameter>
+						<Parameter>--enable-nodejs</Parameter>
+					</CEFCommandLine>
+				</Resources>
+				<Lifecycle>
+					<AutoVisible>true</AutoVisible>
+				</Lifecycle>
+				<UI>
+					<Type>Panel</Type>
+					<Menu>PresetGold</Menu>
+					<Geometry>
+						<Size>
+							<Width>600</Width>
+							<Height>80</Height>
+						</Size>
+						<MinSize>
+							<Width>200</Width>
+							<Height>4</Height>
+						</MinSize>
+					</Geometry>
+				</UI>
+			</DispatchInfo>
+		</Extension>
+
+		<!-- ── Background service (invisible, auto-starts with Premiere) ──── -->
+		<!-- Used as fallback to open the panel if the user truly closed it.   -->
+		<Extension Id="com.presetgold.service">
+			<DispatchInfo>
+				<Resources>
+					<MainPath>./service.html</MainPath>
+					<CEFCommandLine>
+						<Parameter>--allow-file-access-from-files</Parameter>
+						<Parameter>--allow-file-access</Parameter>
+						<Parameter>--enable-nodejs</Parameter>
+					</CEFCommandLine>
+				</Resources>
+				<Lifecycle>
+					<AutoVisible>false</AutoVisible>
+					<StartOn>
+						<Event>applicationActivate</Event>
+					</StartOn>
+				</Lifecycle>
+				<UI>
+					<Type>Panel</Type>
+					<Geometry>
+						<Size>
+							<Width>1</Width>
+							<Height>1</Height>
+						</Size>
+					</Geometry>
+				</UI>
+			</DispatchInfo>
+		</Extension>
+
+	</DispatchInfoList>
+</ExtensionManifest>

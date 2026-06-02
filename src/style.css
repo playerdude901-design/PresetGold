@@ -1,0 +1,352 @@
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg:         #111111;
+    --surface:    #1a1a1a;
+    --surface-2:  #222222;
+    --border:     #2a2a2a;
+    --gold:       #d4af37;
+    --gold-light: #f0d060;
+    --gold-dim:   #9a7d20;
+    --text:       #e8e8e8;
+    --text-muted: #666;
+    --video-tint: rgba(212,175,55,.1);
+    --audio-tint: rgba(80,160,240,.1);
+    --radius:     6px;
+    --bar-height: 44px;
+}
+
+html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+/* ── Main Bar (Horizontal) ────────────────────────────────────────────────── */
+.main-bar {
+    height: var(--bar-height);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 10px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    z-index: 100;
+}
+
+.logo-mini {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+    color: #000;
+    font-weight: 800;
+    font-size: 13px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(212,175,55,0.2);
+    flex-shrink: 0;
+}
+
+.search-wrap {
+    flex: 1;
+    height: 30px;
+}
+
+.search-input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+}
+
+.search-input::placeholder { color: #444; }
+
+.bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.badge {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--gold-light);
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.icon-btn:hover { color: var(--gold); background: var(--border); }
+.icon-btn svg { width: 16px; height: 16px; }
+
+/* ── Results Dropdown ─────────────────────────────────────────────────────── */
+.results {
+    position: absolute;
+    top: var(--bar-height);
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - var(--bar-height));
+    overflow-y: auto;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 90;
+    padding: 4px;
+}
+
+.results.collapsed {
+    max-height: 0;
+    padding: 0;
+    border-bottom-width: 0;
+}
+
+.results.hidden { display: none; }
+
+/* Scrollbar */
+.results::-webkit-scrollbar { width: 4px; }
+.results::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+/* ── Preset Row ───────────────────────────────────────────────────────────── */
+.preset-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    margin-bottom: 2px;
+    transition: background 0.1s;
+    border-left: 2px solid transparent;
+}
+
+.preset-row:hover { background: var(--surface); border-left-color: var(--gold); }
+
+.row-icon {
+    width: 26px;
+    height: 26px;
+    background: #222;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 11px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.row-body {
+    flex: 1;
+    overflow: hidden;
+}
+
+.row-name { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.row-type { font-size: 8px; text-transform: uppercase; color: #555; letter-spacing: 0.5px; }
+
+.preset-row[data-type="Custom"] .row-type { color: #4caf50; font-weight: 600; }
+
+/* ── Hover Actions ── */
+.row-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.2s ease;
+}
+
+.preset-row:hover .row-actions {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.row-btn {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-set { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-set:hover { color: var(--gold); border-color: var(--gold-dim); }
+
+.btn-del-shortcut {
+    background: transparent;
+    color: #555;
+    border: 1px solid transparent;
+    font-size: 10px;
+    padding: 4px 6px;
+    transition: all 0.15s;
+}
+.btn-del-shortcut:hover { color: #e05252; border-color: #e05252; background: rgba(224,82,82,0.1); }
+
+.btn-apply { background: var(--gold-dim); color: #000; }
+.btn-apply:hover { background: var(--gold); }
+
+/* Recording state */
+.preset-row.recording-preset { background: rgba(212,175,55,0.07); border-left-color: var(--gold); }
+.preset-row.recording-preset .btn-set {
+    color: var(--gold);
+    border-color: var(--gold-dim);
+    animation: pulse-border 0.9s ease-in-out infinite;
+}
+@keyframes pulse-border {
+    0%, 100% { border-color: var(--gold-dim); box-shadow: none; }
+    50%       { border-color: var(--gold);     box-shadow: 0 0 6px rgba(212,175,55,0.4); }
+}
+
+
+/* ── Settings ────────────────────────────────────────────────────────────── */
+.settings-view {
+    position: absolute;
+    top: var(--bar-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    z-index: 150;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-view.hidden { display: none; }
+
+.settings-title { font-size: 14px; color: var(--gold-light); margin-bottom: 20px; }
+.setting-group { margin-bottom: 20px; }
+.setting-group label { display: block; font-size: 10px; color: #555; margin-bottom: 8px; text-transform: uppercase; }
+
+.shortcut-box {
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.shortcut-box.recording { border-color: var(--gold); background: rgba(212,175,55,0.05); }
+
+.gold-btn {
+    background: var(--gold-dim);
+    color: #000;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+/* ── Misc ─────────────────────────────────────────────────────────────────── */
+.progress-wrap-mini { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    height: 4px; 
+    background: rgba(255,255,255,0.1); 
+    z-index: 999; 
+}
+.progress-fill { height: 100%; background: #ff0000; width: 0%; transition: width 0.3s; }
+.progress-wrap-mini.done { display: none; }
+
+.toast {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface-2);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold-light);
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 11px;
+    z-index: 1000;
+}
+
+.toast.hidden { display: none; }
+
+.empty { padding: 30px; text-align: center; color: #444; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+.preset-row { animation: fadeIn 0.2s ease both; }
+
+/* ── Rescan spin animation ─────────────────────────────────────────────────── */
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.icon-btn.spinning { color: var(--gold); pointer-events: none; }
+.icon-btn.spinning svg { animation: spin 0.8s linear infinite; }
+
+/* ── Panel collapsed state ─────────────────────────────────────────────────── */
+/*
+ * When the shortcut is pressed while the search input is focused, the panel
+ * visually collapses instead of truly closing.  This keeps the JS context
+ * (and registerKeyEventsInterest) alive so the SAME shortcut can re-open it.
+ */
+html.panel-collapsed body > * {
+    /* Hide all content — the panel frame stays in the Premiere dock */
+    display: none !important;
+}
+
+html.panel-collapsed body {
+    /* Show a thin gold accent line as a visual indicator */
+    background: var(--bg);
+    overflow: hidden;
+    height: 4px;
+    min-height: 4px;
+    position: relative;
+}
+
+html.panel-collapsed body::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--gold-dim) 20%,
+        var(--gold) 50%,
+        var(--gold-dim) 80%,
+        transparent 100%
+    );
+    animation: pg-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pg-pulse {
+    0%, 100% { opacity: 0.5; }
+    50%       { opacity: 1;   }
+}

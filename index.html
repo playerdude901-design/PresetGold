@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PresetGold</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body class="horizontal-mode">
+    <!-- ── Main Bar ────────────────────────────────────────── -->
+    <div class="main-bar">
+        <div class="logo-mini">G</div>
+        
+        <div class="search-wrap">
+            <input
+                id="searchInput"
+                class="search-input"
+                type="text"
+                placeholder="Search presets…"
+                autocomplete="off"
+                spellcheck="false"
+            >
+        </div>
+
+        <div class="bar-actions">
+            <span id="presetCount" class="badge">—</span>
+            <button id="rescanBtn" class="icon-btn" title="Re-scan presets">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            </button>
+            <button id="settingsBtn" class="icon-btn" title="Settings">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+        </div>
+
+        <div id="progressWrap" class="progress-wrap-mini">
+            <div id="progressBar" class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- ── Results Dropdown ────────────────────────────────── -->
+    <div id="results" class="results collapsed hidden"></div>
+
+    <!-- ── Settings Overlay ───────────────────────────────── -->
+    <div id="settingsView" class="settings-view hidden">
+        <div class="settings-content">
+            <h2 class="settings-title">Configuration</h2>
+            <div class="setting-group">
+                <label>Focus Shortcut</label>
+                <div id="shortcutRecorder" class="shortcut-box">
+                    <span id="shortcutLabel">Click to record…</span>
+                    <span id="shortcutHint">Press keys like Ctrl+F</span>
+                </div>
+            </div>
+            <div class="setting-help">
+                <p><strong>Abrir/cerrar el panel:</strong> Presiona el shortcut desde Premiere o desde Windows si el hotkey de sistema está activo.</p>
+                <p><strong>Servicio interno:</strong> Un panel invisible mantiene vivo el toggle aunque PresetGold esté cerrado.</p>
+                <p><strong>Hotkey de sistema:</strong> Ejecuta <em>start_presetgold_hotkey.bat</em>; usa Python y APIs nativas de Windows.</p>
+                <p><strong>Shortcuts de Presets:</strong> Asigna teclas únicas a cada preset directamente en la lista.</p>
+            </div>
+            <button id="saveSettingsBtn" class="gold-btn">Save &amp; Close</button>
+        </div>
+    </div>
+
+
+
+    <!-- ── Empty state ────────────────────────────────────── -->
+    <div id="emptyState" class="empty hidden">
+        <p>No presets match <strong id="emptyQuery"></strong></p>
+    </div>
+
+    <!-- ── Toast ──────────────────────────────────────────── -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="lib/CSInterface.js"></script>
+    <script src="src/main.js"></script>
+</body>
+</html>
